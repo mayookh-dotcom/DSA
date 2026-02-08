@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+struct poly {
+    int coef;
+    int exp;
+};
+
+int main() {
+    struct poly A[20], B[20], C[100];
+    int n1, n2, k = 0;
+
+    /* -------- INPUT FIRST POLYNOMIAL -------- */
+    printf("Enter number of terms in Polynomial A: ");
+    scanf("%d", &n1);
+
+    printf("Enter terms as (coefficient exponent) in descending exponent order:\n");
+    for(int i = 0; i < n1; i++)
+        scanf("%d %d", &A[i].coef, &A[i].exp);
+
+    /* -------- INPUT SECOND POLYNOMIAL -------- */
+    printf("\nEnter number of terms in Polynomial B: ");
+    scanf("%d", &n2);
+
+    printf("Enter terms as (coefficient exponent) in descending exponent order:\n");
+    for(int i = 0; i < n2; i++)
+        scanf("%d %d", &B[i].coef, &B[i].exp);
+
+    /* -------- MULTIPLICATION LOGIC -------- */
+    for(int i = 0; i < n1; i++) {
+        for(int j = 0; j < n2; j++) {
+            C[k].coef = A[i].coef * B[j].coef;
+            C[k].exp  = A[i].exp + B[j].exp;
+            k++;
+        }
+    }
+
+    /* -------- COMBINE LIKE TERMS -------- */
+    for(int i = 0; i < k; i++) {
+        for(int j = i + 1; j < k; j++) {
+            if(C[i].exp == C[j].exp) {
+                C[i].coef += C[j].coef;
+                C[j].coef = 0;   // mark as used
+            }
+        }
+    }
+
+    /* -------- DISPLAY RESULT -------- */
+    printf("\nResultant Polynomial (A * B):\n");
+
+    int first = 1;
+    for(int i = 0; i < k; i++) {
+        if(C[i].coef != 0) {
+            if(!first && C[i].coef > 0)
+                printf(" + ");
+            printf("%dx^%d", C[i].coef, C[i].exp);
+            first = 0;
+        }
+    }
+    printf("\n");
+
+    return 0;
+}
