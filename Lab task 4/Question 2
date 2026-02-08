@@ -1,0 +1,70 @@
+#include <stdio.h>
+
+struct sparse {
+    int row, col, val;
+};
+
+int main() {
+    struct sparse A[20], B[20], C[40];
+    int n1, n2;
+    int i = 1, j = 1, k = 1;
+
+    /* ---------- INPUT FIRST SPARSE MATRIX ---------- */
+    printf("Enter rows, columns and non-zero count of Matrix A:\n");
+    scanf("%d %d %d", &A[0].row, &A[0].col, &n1);
+    A[0].val = n1;
+
+    printf("Enter (row col value) for Matrix A:\n");
+    for(int x = 1; x <= n1; x++)
+        scanf("%d %d %d", &A[x].row, &A[x].col, &A[x].val);
+
+    /* ---------- INPUT SECOND SPARSE MATRIX ---------- */
+    printf("\nEnter rows, columns and non-zero count of Matrix B:\n");
+    scanf("%d %d %d", &B[0].row, &B[0].col, &n2);
+    B[0].val = n2;
+
+    // Dimension check
+    if(A[0].row != B[0].row || A[0].col != B[0].col) {
+        printf("\nMatrix addition not possible (dimensions mismatch)!\n");
+        return 0;
+    }
+
+    printf("Enter (row col value) for Matrix B:\n");
+    for(int x = 1; x <= n2; x++)
+        scanf("%d %d %d", &B[x].row, &B[x].col, &B[x].val);
+
+    /* ---------- ADDITION ---------- */
+    C[0].row = A[0].row;
+    C[0].col = A[0].col;
+
+    while(i <= n1 && j <= n2) {
+
+        if(A[i].row < B[j].row ||
+          (A[i].row == B[j].row && A[i].col < B[j].col)) {
+            C[k++] = A[i++];
+        }
+        else if(B[j].row < A[i].row ||
+                (A[i].row == B[j].row && B[j].col < A[i].col)) {
+            C[k++] = B[j++];
+        }
+        else { 
+            C[k].row = A[i].row;
+            C[k].col = A[i].col;
+            C[k].val = A[i].val + B[j].val;
+            i++; j++; k++;
+        }
+    }
+
+    while(i <= n1) C[k++] = A[i++];
+    while(j <= n2) C[k++] = B[j++];
+
+    C[0].val = k - 1;  
+
+    // OUTPUT 
+    printf("\nResultant Sparse Matrix (A + B):\n");
+    printf("Row Col Val\n");
+    for(int x = 0; x < k; x++)
+        printf("%d   %d   %d\n", C[x].row, C[x].col, C[x].val);
+
+    return 0;
+}
