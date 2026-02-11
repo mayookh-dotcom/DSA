@@ -34,6 +34,22 @@ void display() {
     }
 }
 
+void peek() {
+    if (top==-1) {
+        printf("Stack is empty\n");
+    } else {
+        printf("Top element: %d\n", stack[top]);
+    }
+}
+
+void isEmpty() {
+    if (top==-1) {
+        printf("Stack is empty\n");
+    } else {
+        printf("Stack is not empty\n");
+    }
+}
+
 int main() {
     push(10);
     push(20);
@@ -41,5 +57,7 @@ int main() {
     display();
     pop();
     display();
-    return 0;
+    peek();
+    isEmpty();
+    return 0; 
 }
