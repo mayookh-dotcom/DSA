@@ -1,0 +1,45 @@
+#include <stdio.h>
+#define MAX 100
+
+int queue[MAX], stack[MAX];
+int front = 0, rear = -1;
+
+void enqueue(int x) {
+    queue[++rear] = x;
+}
+
+int dequeue() {
+    return queue[front++];
+}
+
+int main() {
+    int capacity, i;
+    scanf("%d", &capacity);
+
+    for(i = 0; i < capacity; i++) {
+        int x;
+        scanf("%d", &x);
+        enqueue(x);
+    }
+
+    printf("Original queue: ");
+    for(i = front; i <= rear; i++)
+        printf("%d ", queue[i]);
+
+    // Reverse using stack
+    int top = -1;
+    while(front <= rear)
+        stack[++top] = dequeue();
+
+    front = 0;
+    rear = -1;
+
+    while(top >= 0)
+        enqueue(stack[top--]);
+
+    printf("\nReversed queue: ");
+    for(i = front; i <= rear; i++)
+        printf("%d ", queue[i]);
+
+    return 0;
+}
