@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+int main() {
+    int N, i;
+    scanf("%d", &N);
+
+    struct Node *head = NULL, *newNode, *temp;
+
+    // Insert at beginning
+    for(i = 0; i < N; i++) {
+        newNode = (struct Node*)malloc(sizeof(struct Node));
+        scanf("%d", &newNode->data);
+        newNode->next = head;
+        head = newNode;
+    }
+
+    // Print inserted list
+    temp = head;
+    while(temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+
+    // Reverse list
+    struct Node *prev = NULL, *current = head, *nextNode;
+
+    while(current != NULL) {
+        nextNode = current->next;
+        current->next = prev;
+        prev = current;
+        current = nextNode;
+    }
+
+    head = prev;
+
+    printf("\n");
+
+    // Print reversed list
+    temp = head;
+    while(temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+
+    return 0;
+}
+
